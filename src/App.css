@@ -21,9 +21,9 @@ header h1{
 }
 .error{
   position: fixed;
-  width: 10%;
-  left: 45%;
-  top:40%;
+  width: 40%;
+  left: 30%;
+  top:20%;
   background-color: black;
   padding: 100px 50px;
   color:red;

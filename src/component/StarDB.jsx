@@ -16,7 +16,8 @@ class StarDB extends Component {
         currentPeople: "",
         currentPlanet: "",
         currentStarship: "",
-        cachedError: ""
+        hasError: false,
+        errorInfo: ""
     }
 
     setCurrentPeople = (name) => {
@@ -88,21 +89,37 @@ class StarDB extends Component {
         .catch(error => {
             this.setState({
                 isLoaded: false,
-                cachedError: error,
+                hasError: true,
+                errorInfo: error
             });
             alert(error)
         });
 
+    componentDidCatch(error, errorInfo) {
+        // Catch errors in any components below and re-render with error message
+        this.setState({
+            hasError: error,
+            errorInfo: errorInfo
+        })
+        // You can also log error messages to an error reporting service here
+    }
 
     render() {
-
+        if (this.state.errorInfo) {
+            return (
+                <div className="error">
+                    <h2>Something went wrong.</h2>
+                    <p>{this.state.errorInfo.componentStack
+                    }</p>
+                </div>
+            );
+        }
         return (
             <div className="appBody">
                 <header>
                     <h1>StarDB : </h1>
                     <RadioSide setLink={this.setLink}/>
                 </header>
-
                 <div>
                     {this.state.People[1] ? <People People={this.state.People} setCurrentPeople={this.setCurrentPeople}
                                                     currentPeople={this.state.currentPeople}/> : null}
